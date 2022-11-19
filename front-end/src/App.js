@@ -12,7 +12,7 @@ function App() {
   const fetchTickets = async() => {
     try {      
       const response = await axios.get("/api/tickets");
-      setTickets(response.data);
+      setTickets(response.data.tickets);
     } catch(error) {
       setError("error retrieving tickets: " + error);
     }

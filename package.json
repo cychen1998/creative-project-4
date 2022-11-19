@@ -1,0 +1,23 @@
+{
+  "name": "learn-mongo-lesson3",
+  "version": "1.0.0",
+  "description": "help ticket database",
+  "main": "tickets.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/cychen1998/learn-mongo-lesson3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cychen1998/learn-mongo-lesson3/issues"
+  },
+  "homepage": "https://github.com/cychen1998/learn-mongo-lesson3#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2"
+  }
+}
