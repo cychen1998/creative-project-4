@@ -4,58 +4,60 @@ import './App.css';
 
 function App() {
   // setup state
-  const [tickets, setTickets] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
-  const [problem, setProblem] = useState("");
+  const [quantity, setQuantity] = useState();
+  const [ingredients, setIngredients] = useState("");
 
-  const fetchTickets = async() => {
+  const fetchRecipes = async() => {
     try {      
-      const response = await axios.get("/api/tickets");
-      setTickets(response.data.tickets);
+      const response = await axios.get("/api/recipes");
+      setRecipes(response.data.recipes);
     } catch(error) {
-      setError("error retrieving tickets: " + error);
+      setError("error retrieving recipes: " + error);
     }
   }
-  const createTicket = async() => {
+  const createRecipe = async() => {
     try {
-      await axios.post("/api/tickets", {name: name, problem: problem});
+      await axios.post("/api/recipes", {name: name, quantity: quantity, ingredients: ingredients});
     } catch(error) {
-      setError("error adding a ticket: " + error);
+      setError("error adding a recipe: " + error);
     }
   }
-  const deleteOneTicket = async(ticket) => {
+  const deleteOneRecipe = async(recipe) => {
     try {
-      await axios.delete("/api/tickets/" + ticket.id);
+      await axios.delete("/api/recipes/" + recipe.id);
     } catch(error) {
-      setError("error deleting a ticket" + error);
+      setError("error deleting a recipe" + error);
     }
   }
 
   // fetch ticket data
   useEffect(() => {
-    fetchTickets();
+    fetchRecipes();
   },[]);
 
-  const addTicket = async(e) => {
+  const addRecipe = async(e) => {
     e.preventDefault();
-    await createTicket();
-    fetchTickets();
+    await createRecipe();
+    fetchRecipes();
     setName("");
-    setProblem("");
+    setQuantity();
+    setIngredients("");
   }
 
-  const deleteTicket = async(ticket) => {
-    await deleteOneTicket(ticket);
-    fetchTickets();
+  const deleteRecipe = async(recipe) => {
+    await deleteOneRecipe(recipe);
+    fetchRecipes();
   }
 
   // render results
   return (
     <div className="App">
       {error}
-      <h1>Create a Ticket</h1>
-      <form onSubmit={addTicket}>
+      <h1>Create a Recipe</h1>
+      <form onSubmit={addRecipe}>
         <div>
           <label>
             Name:
@@ -64,20 +66,26 @@ function App() {
         </div>
         <div>
           <label>
-            Problem:
-            <textarea value={problem} onChange={e=>setProblem(e.target.value)}></textarea>
+            Quantity:
+            <input type="number" value={quantity} onChange={e => setQuantity(parseInt(e.target.value))} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Ingredients:
+            <textarea value={ingredients} onChange={e => setIngredients(e.target.value)}></textarea>
           </label>
         </div>
         <input type="submit" value="Submit" />
       </form>
-      <h1>Tickets</h1>
-      {tickets.map( ticket => (
-        <div key={ticket.id} className="ticket">
-          <div className="problem">
-            <p>{ticket.problem}</p>
-            <p><i>-- {ticket.name}</i></p>
+      <h1>Recipes</h1>
+      {recipes.map( recipe => (
+        <div key={recipe.id} className="recipe">
+          <div className="ingredient">
+            <p>{recipe.name}&emsp;{recipe.quantity}</p>
+            <p><i>{recipe.ingredients}</i></p>
           </div>
-          <button onClick={e => deleteTicket(ticket)}>Delete</button>
+          <button onClick={e => deleteRecipe(recipe)}>Delete</button>
         </div>
       ))}     
     </div>
